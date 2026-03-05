@@ -1,0 +1,43 @@
+services:
+  # ============================================
+  # Grafana LGTM — All-in-One
+  # Loki + Grafana + Tempo + Mimir + OTel Collector
+  # ============================================
+  lgtm:
+    image: grafana/otel-lgtm:0.8.1
+    container_name: lgtm
+    ports:
+      - "3000:3000"   # Grafana
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # App — Python/Flask instrumentada com OTel
+  # ============================================
+  app:
+    build: ./app
+    container_name: lab05-app
+    environment:
+      - OTEL_SERVICE_NAME=lab05-app
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://lgtm:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      - OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+      - OTEL_LOGS_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=otlp
+      - OTEL_TRACES_EXPORTER=otlp
+    ports:
+      - "5000:5000"
+    depends_on:
+      lgtm:
+        condition: service_healthy
+    labels:
+      job: "lab05-app"

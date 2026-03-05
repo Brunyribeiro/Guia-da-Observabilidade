@@ -1,0 +1,106 @@
+site_name: Guia da Observabilidade
+site_description: Roteiro de estudos sobre Observabilidade e SRE
+site_author: Bruny
+# ⚠️ Ajuste as URLs abaixo com seu username real do GitHub
+site_url: https://brunyribeiro.github.io/Guia-da-Observabilidade/
+
+repo_name: Guia-da-Observabilidade
+repo_url: https://github.com/brunyribeiro/Guia-da-Observabilidade
+
+theme:
+  name: material
+  language: pt-BR
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Modo escuro
+    - scheme: slate
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Modo claro
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - toc.follow
+
+plugins:
+  - search:
+      lang: pt
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - 🏠 Início: index.md
+  - 📡 Observabilidade:
+    - 🔍 Observabilidade vs Monitoramento: Observabilidade/ObservabilidadeVsMonitoramento.md
+    - 📄 Logs: Observabilidade/Logs.md
+    - 📊 Métricas: Observabilidade/Metricas.md
+    - 🔗 Traces: Observabilidade/Traces.md
+    - 🔭 OpenTelemetry: Observabilidade/OpenTelemetry.md
+    - 🚨 Alertas: Observabilidade/Alertas.md
+    - 📈 Dashboards: Observabilidade/Dashboards.md
+    - 🏔️ Maturidade (OMM): Observabilidade/Omm.md
+  - ⚙️ SRE:
+    - 🌟 Golden Signals: SRE/GoldenSignals.md
+    - 📏 SLI: SRE/SLI.md
+    - 🎯 SLO: SRE/SLO.md
+    - 📝 SLA: SRE/SLA.md
+    - 💰 Error Budget: SRE/ErrorBudget.md
+    - ⏱️ MTTR: SRE/MTTR.md
+    - 🔎 Post-Mortem: SRE/PostMortem.md
+    - 🚀 Release & Change: SRE/ReleaseChange.md
+    - 📤 TOI: SRE/TOI.md
+  - 🛠️ Na Prática:
+    - 🚒 Incident Management: SRE/IncidentManagement.md
+    - 📟 On-Call: SRE/OnCall.md
+    - 📋 Runbooks: SRE/Runbooks.md
+    - 🔧 Troubleshooting: troubleshooting.md
+  - 🧪 Labs Práticos:
+    - 🧪 Visão Geral: Labs/index.md
+    - "Lab 01 — Métricas: Prometheus + Grafana": Labs/lab01-metricas-prometheus-grafana.md
+    - "Lab 02 — Logs: Loki + Promtail": Labs/lab02-logs-loki.md
+    - "Lab 03 — Traces: Tempo + OTel": Labs/lab03-traces-tempo.md
+    - "Lab 04 — Stack Completa": Labs/lab04-otel-stack-completa.md
+    - "Lab 05 — LGTM All-in-One": Labs/lab05-lgtm.md
+  - 🎓 Certificações:
+    - 🎓 Blueprints: Certificacoes/index.md
+    - 🔭 Observability Foundation: Certificacoes/ObservabilityFoundation.md
+    - 🛡️ SRE Foundation: Certificacoes/SREFoundation.md
+    - 🛡️ SRE Practitioner: Certificacoes/SREPractitioner.md
+    - 📊 PCA (Prometheus): Certificacoes/PCA.md
+    - 🔭 OTCA (OpenTelemetry): Certificacoes/OTCA.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/brunyribeiro

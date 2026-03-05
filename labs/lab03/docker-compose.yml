@@ -1,0 +1,82 @@
+# Lab 03 — Traces com Tempo + OpenTelemetry
+# Suba com: docker compose up -d
+# Acesse: http://localhost:3000 (admin/admin)
+
+services:
+  frontend:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - OTEL_SERVICE_NAME=frontend
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - ORDER_SVC_URL=http://order-svc:8001
+      - INVENTORY_SVC_URL=http://inventory-svc:8002
+    depends_on:
+      - otel-collector
+      - order-svc
+      - inventory-svc
+
+  order-svc:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    environment:
+      - OTEL_SERVICE_NAME=order-svc
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - APP_PORT=8001
+      - PAYMENT_SVC_URL=http://payment-svc:8003
+      - INVENTORY_SVC_URL=http://inventory-svc:8002
+    depends_on:
+      - otel-collector
+      - payment-svc
+
+  payment-svc:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    environment:
+      - OTEL_SERVICE_NAME=payment-svc
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - APP_PORT=8003
+    depends_on:
+      - otel-collector
+
+  inventory-svc:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    environment:
+      - OTEL_SERVICE_NAME=inventory-svc
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - APP_PORT=8002
+    depends_on:
+      - otel-collector
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.104.0
+    volumes:
+      - ./config/otel-collector.yml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - "4317:4317"
+
+  tempo:
+    image: grafana/tempo:2.5.0
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./config/tempo.yml:/etc/tempo.yaml
+    ports:
+      - "3200:3200"
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./config/grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+    depends_on:
+      - tempo

@@ -1,0 +1,120 @@
+# Lab 04 — Stack Completa com OpenTelemetry Collector
+# Suba com: docker compose up -d
+# Acesse: http://localhost:3000 (admin/admin)
+
+services:
+  frontend:
+    build:
+      context: ../lab03/app
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - OTEL_SERVICE_NAME=frontend
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - ORDER_SVC_URL=http://order-svc:8001
+      - INVENTORY_SVC_URL=http://inventory-svc:8002
+    labels:
+      - "job=frontend"
+    depends_on:
+      - otel-collector
+      - order-svc
+      - inventory-svc
+
+  order-svc:
+    build:
+      context: ../lab03/app
+      dockerfile: Dockerfile
+    environment:
+      - OTEL_SERVICE_NAME=order-svc
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - APP_PORT=8001
+      - PAYMENT_SVC_URL=http://payment-svc:8003
+      - INVENTORY_SVC_URL=http://inventory-svc:8002
+    labels:
+      - "job=order-svc"
+    depends_on:
+      - otel-collector
+
+  payment-svc:
+    build:
+      context: ../lab03/app
+      dockerfile: Dockerfile
+    environment:
+      - OTEL_SERVICE_NAME=payment-svc
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - APP_PORT=8003
+    labels:
+      - "job=payment-svc"
+    depends_on:
+      - otel-collector
+
+  inventory-svc:
+    build:
+      context: ../lab03/app
+      dockerfile: Dockerfile
+    environment:
+      - OTEL_SERVICE_NAME=inventory-svc
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - APP_PORT=8002
+    labels:
+      - "job=inventory-svc"
+    depends_on:
+      - otel-collector
+
+  # --- Observability Stack ---
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.104.0
+    volumes:
+      - ./config/otel-collector.yml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - "4317:4317"
+      - "8889:8889"
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - otel-collector
+
+  loki:
+    image: grafana/loki:3.1.0
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+
+  promtail:
+    image: grafana/promtail:3.1.0
+    volumes:
+      - ./config/promtail.yml:/etc/promtail/config.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+
+  tempo:
+    image: grafana/tempo:2.5.0
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./config/tempo.yml:/etc/tempo.yaml
+    ports:
+      - "3200:3200"
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./config/grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+      - ./config/grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+      - ./config/grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
+      - loki
+      - tempo
