@@ -6,7 +6,7 @@ Esta seção documenta os **plugins Grafana** desenvolvidos como extensão prát
 
 ## Screenshot
 
-![Painel Demo Observabilidade](grafana-apm.jpg)
+![Painel Demo Observabilidade](https://raw.githubusercontent.com/Brunyribeiro/Guia-da-Observabilidade/main/grafana-apm/grafana-apm.jpg)
 
 > Painel **Demo Observabilidade** rodando o plugin `troubleshooting-app`: correlação de SLOs, métricas HTTP, dependências e traces por serviço.
 
