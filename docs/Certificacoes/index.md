@@ -35,11 +35,11 @@ Certificações em Observabilidade e SRE validam seu conhecimento prático e te�
 
 | Certificação | Organização | Nível | Custo | Formato |
 |---|---|---|---|---|
-| [Observability Foundation](Certificacoes/ObservabilityFoundation.md) | DevOps Institute | Fundação | ~$350 | Online, supervisionado |
-| [SRE Foundation](Certificacoes/SREFoundation.md) | DevOps Institute | Fundação | ~$350 | Online, supervisionado |
-| [SRE Practitioner](Certificacoes/SREPractitioner.md) | DevOps Institute | Praticante | ~$350 | Online, supervisionado |
-| [PCA - Prometheus Certified Associate](Certificacoes/PCA.md) | CNCF | Associate | $250 | Online, supervisionado |
-| [OTCA - OpenTelemetry Certified Associate](Certificacoes/OTCA.md) | CNCF | Associate | $250 | Online, supervisionado |
+| [Observability Foundation](ObservabilityFoundation.md) | DevOps Institute | Fundação | ~$350 | Online, supervisionado |
+| [SRE Foundation](SREFoundation.md) | DevOps Institute | Fundação | ~$350 | Online, supervisionado |
+| [SRE Practitioner](SREPractitioner.md) | DevOps Institute | Praticante | ~$350 | Online, supervisionado |
+| [PCA - Prometheus Certified Associate](PCA.md) | CNCF | Associate | $250 | Online, supervisionado |
+| [OTCA - OpenTelemetry Certified Associate](OTCA.md) | CNCF | Associate | $250 | Online, supervisionado |
 
 ---
 
