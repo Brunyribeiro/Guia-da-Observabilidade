@@ -1,0 +1,68 @@
+{
+    "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
+    "type": "app",
+    "name": "Observabilidade",
+    "id": "troubleshooting-app",
+    "autoEnabled": true,
+    "info": {
+        "keywords": [
+            "app",
+            "observability",
+            "lgtm",
+            "troubleshooting",
+            "warroom"
+        ],
+        "description": "Observabilidade guiada para incidentes: catálogo de serviços e correlação de métricas, logs, traces, runtime e infraestrutura em um único fluxo.",
+        "author": {
+            "name": "Bruno Tavares"
+        },
+        "logos": {
+            "small": "img/logo.svg",
+            "large": "img/logo.svg"
+        },
+        "screenshots": [],
+        "version": "1.0.0",
+        "updated": "2026-07-10"
+    },
+    "includes": [
+        {
+            "type": "page",
+            "name": "Observabilidade",
+            "path": "/a/troubleshooting-app/services",
+            "icon": "monitor",
+            "addToNav": true,
+            "defaultNav": true
+        },
+        {
+            "type": "page",
+            "name": "Centro de incidentes",
+            "path": "/a/troubleshooting-app/incidents",
+            "icon": "fire",
+            "addToNav": true
+        },
+        {
+            "type": "page",
+            "icon": "cog",
+            "name": "Configuração",
+            "path": "/plugins/troubleshooting-app",
+            "role": "Admin",
+            "addToNav": false
+        }
+    ],
+    "dependencies": {
+        "grafanaDependency": ">=12.3.0",
+        "plugins": [
+            {
+                "type": "app",
+                "id": "grafana-exploretraces-app",
+                "name": "Traces Drilldown"
+            }
+        ],
+        "extensions": {
+            "exposedComponents": [
+                "grafana-exploretraces-app/embedded-trace-exploration/v1"
+            ]
+        }
+    },
+    "buildMode": "production"
+}

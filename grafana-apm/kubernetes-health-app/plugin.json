@@ -1,0 +1,58 @@
+{
+    "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
+    "type": "app",
+    "name": "Kubernetes Health",
+    "id": "kubernetes-health-app",
+    "autoEnabled": true,
+    "info": {
+        "keywords": [
+            "app",
+            "kubernetes",
+            "k8s",
+            "health",
+            "cluster",
+            "warroom"
+        ],
+        "description": "Visão APM do cluster Kubernetes — overview, namespaces, workloads, nodes, storage, custo e alertas.",
+        "author": {
+            "name": "Bruno Tavares"
+        },
+        "logos": {
+            "small": "img/logo.svg",
+            "large": "img/logo.svg"
+        },
+        "screenshots": [],
+        "version": "1.0.0",
+        "updated": "2026-07-10"
+    },
+    "includes": [
+        {
+            "type": "page",
+            "name": "Kubernetes Health",
+            "path": "/a/kubernetes-health-app/overview",
+            "icon": "cloud",
+            "addToNav": true,
+            "defaultNav": true
+        },
+        {
+            "type": "page",
+            "name": "Centro de incidentes",
+            "path": "/a/kubernetes-health-app/incidents",
+            "icon": "fire",
+            "addToNav": true
+        },
+        {
+            "type": "page",
+            "icon": "cog",
+            "name": "Configuration",
+            "path": "/plugins/kubernetes-health-app",
+            "role": "Admin",
+            "addToNav": false
+        }
+    ],
+    "dependencies": {
+        "grafanaDependency": ">=12.3.0",
+        "plugins": []
+    },
+    "buildMode": "production"
+}
